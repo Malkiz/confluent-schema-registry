@@ -1,7 +1,7 @@
 import { ConfluentSchema, Serdes } from './@types'
 import protobuf from 'protobufjs'
 
-export default class ProtoSerdes implements Serdes {
+export class ProtoSerdes implements Serdes {
   public serialize(
     schema: ConfluentSchema,
     payload: any,
@@ -28,3 +28,6 @@ export default class ProtoSerdes implements Serdes {
     return message.decode(buffer)
   }
 }
+
+type ProtoSerdesType = typeof ProtoSerdes
+export type { ProtoSerdesType }

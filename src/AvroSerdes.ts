@@ -1,7 +1,7 @@
 import { AvroSchema, ConfluentSchema, Serdes } from './@types'
 import avro from 'avsc'
 
-export default class AvroSerdes implements Serdes {
+export class AvroSerdes implements Serdes {
   public serialize(schema: ConfluentSchema, payload: any): Buffer {
     const avroSchema: AvroSchema = avro.Type.forSchema(JSON.parse(schema.schemaString))
     return avroSchema.toBuffer(payload)
@@ -12,3 +12,6 @@ export default class AvroSerdes implements Serdes {
     return avroSchema.fromBuffer(buffer)
   }
 }
+
+type AvroSerdesType = typeof AvroSerdes
+export type { AvroSerdesType };
