@@ -1,8 +1,8 @@
-import { ConfluentSchema, Serdes } from './@types'
+import { ConfluentSchema, AbstractSerdes } from './@types'
 import protobuf from 'protobufjs'
 import { IParserResult, ReflectionObject, Namespace } from 'protobufjs/light'
 
-export default class ProtoSerdes implements Serdes {
+export default class ProtoSerdes extends AbstractSerdes {
   private getNestedTypeName(parent: { [k: string]: ReflectionObject } | undefined): string {
     if (!parent) throw Error('no nested fields')
     const keys = Object.keys(parent)

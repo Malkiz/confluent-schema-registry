@@ -107,7 +107,7 @@ export default class SchemaRegistry {
 
     const schema = await this.getSchema(registryId)
 
-    const serdes = serdesTypeFromSchemaType(schema.type)
+    const serdes = await serdesTypeFromSchemaType(schema.type)
     let serializedPayload
     try {
       serializedPayload = serdes.serialize(schema, payload, serdesOpts)
@@ -133,7 +133,7 @@ export default class SchemaRegistry {
     }
 
     const schema = await this.getSchema(registryId)
-    const serdes = serdesTypeFromSchemaType(schema.type)
+    const serdes = await serdesTypeFromSchemaType(schema.type)
     try {
       return serdes.deserialize(schema, payload, serdesOpts)
     } catch (error) {

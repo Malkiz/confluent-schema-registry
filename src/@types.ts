@@ -26,6 +26,13 @@ export interface Serdes {
   deserialize(schema: ConfluentSchema, buffer: Buffer, opts?: {}): any
 }
 
+export abstract class AbstractSerdes implements Serdes {
+  abstract serialize(schema: ConfluentSchema, payload: any, opts?: {}): Buffer
+  abstract deserialize(schema: ConfluentSchema, buffer: Buffer, opts?: {}): any
+}
+
+export type AbstractSerdesType = Object extends AbstractSerdes
+
 export interface AvroSchema {
   toBuffer: (payload: object) => Buffer // FIXME:
   fromBuffer(buffer: Buffer, resolver?: Resolver, noCheck?: boolean): any

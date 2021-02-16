@@ -1,32 +1,29 @@
-import AvroSerdes from './AvroSerdes'
-import JsonSerdes from './JsonSerdes'
-import ProtoSerdes from './ProtoSerdes'
-import { SchemaType, Serdes } from './@types'
+import { SchemaType, Serdes, AbstractSerdesType } from './@types'
 
 const serdesTypeFromSchemaTypeMap: Record<string, Serdes> = {}
 
-export const serdesTypeFromSchemaType = (schemaType: SchemaType): Serdes => {
+export const serdesTypeFromSchemaType = async (schemaType: SchemaType): Promise<Serdes> => {
   const schemaTypeStr = schemaType.toString()
 
   if (!serdesTypeFromSchemaTypeMap[schemaTypeStr]) {
-    let serdes
+    let serdesClass: AbstractSerdesType
     switch (schemaType) {
       case SchemaType.AVRO: {
-        serdes = new AvroSerdes()
+        serdesClass = await import('./AvroSerdes')
         break
       }
       case SchemaType.JSON: {
-        serdes = new JsonSerdes()
+        serdesClass = await import('./JsonSerdes')
         break
       }
       case SchemaType.PROTOBUF: {
-        serdes = new ProtoSerdes()
+        serdesClass = await import('./ProtoSerdes')
         break
       }
       default:
         throw new Error()
     }
-    serdesTypeFromSchemaTypeMap[schemaTypeStr] = serdes
+    serdesTypeFromSchemaTypeMap[schemaTypeStr] = new serdesClass()
   }
   return serdesTypeFromSchemaTypeMap[schemaTypeStr]
 }

@@ -1,7 +1,7 @@
-import { ConfluentSchema, Serdes } from './@types'
+import { ConfluentSchema, AbstractSerdes } from './@types'
 import Ajv from 'ajv'
 
-export default class JsonSerdes implements Serdes {
+export default class JsonSerdes extends AbstractSerdes {
   private getJsonSchema(schema: ConfluentSchema, opts: any) {
     const ajv = new Ajv(opts)
     const validate = ajv.compile(JSON.parse(schema.schemaString))

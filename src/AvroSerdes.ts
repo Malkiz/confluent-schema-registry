@@ -1,7 +1,7 @@
-import { AvroSchema, ConfluentSchema, Serdes } from './@types'
+import { AvroSchema, ConfluentSchema, AbstractSerdes } from './@types'
 import avro from 'avsc'
 
-export default class AvroSerdes implements Serdes {
+export default class AvroSerdes extends AbstractSerdes {
   private getAvroSchema(schema: ConfluentSchema) {
     const avroSchema: AvroSchema = avro.Type.forSchema(JSON.parse(schema.schemaString))
     return avroSchema
